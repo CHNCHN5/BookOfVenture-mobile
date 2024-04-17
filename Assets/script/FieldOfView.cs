@@ -17,6 +17,13 @@ public class FieldOfView : MonoBehaviour
     private Coroutine moveCoroutine;
     private Animator anima;
 
+    public GameObject Danger, Bg;
+    public GameObject Warning;
+
+    public float maxDistance = 10.0f;
+    public float initialCapacity = 1.0f;
+    public float capacityIncrement = 0.1f;
+
     private void Start()
     {
         anima = GetComponent<Animator>();
@@ -42,6 +49,7 @@ public class FieldOfView : MonoBehaviour
         {
             target = rangeChecks[0].transform;
             Vector3 directionToTarget = (target.position - transform.position).normalized;
+            Warning.SetActive(true);
 
             if (Vector3.Angle(transform.forward, directionToTarget) < angle / 2)
             {
@@ -56,6 +64,13 @@ public class FieldOfView : MonoBehaviour
                     }
 
                     anima.SetBool("isRun", true); // Player is visible, set animation to run
+                    Danger.SetActive(true);
+                    Warning.SetActive(false);
+
+                    // Increase the capacity of Bg based on distance to target
+                    float scaleFactor = distanceToTarget / maxDistance; // You can set maxDistance as per your requirement
+                    float newCapacity = initialCapacity + (scaleFactor * capacityIncrement);
+                    Bg.transform.localScale = new Vector3(newCapacity, newCapacity, newCapacity);
                 }
                 else
                 {
@@ -71,6 +86,8 @@ public class FieldOfView : MonoBehaviour
         }
         else
         {
+            Warning.SetActive(false);
+            Danger.SetActive(false);
             anima.SetBool("isRun", false); // Player is not visible, set animation to idle
             anima.SetBool("isWalk", false);
             target = null;
