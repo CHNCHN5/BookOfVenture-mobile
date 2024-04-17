@@ -21,8 +21,7 @@ public class FieldOfView : MonoBehaviour
     public GameObject Warning;
 
     public float maxDistance = 10.0f;
-    public float initialCapacity = 1.0f;
-    public float capacityIncrement = 0.1f;
+    public float initialTransparency = 1.0f;
 
     private void Start()
     {
@@ -67,10 +66,12 @@ public class FieldOfView : MonoBehaviour
                     Danger.SetActive(true);
                     Warning.SetActive(false);
 
-                    // Increase the capacity of Bg based on distance to target
+                    // Adjust the transparency of Bg based on distance to target
                     float scaleFactor = distanceToTarget / maxDistance; // You can set maxDistance as per your requirement
-                    float newCapacity = initialCapacity + (scaleFactor * capacityIncrement);
-                    Bg.transform.localScale = new Vector3(newCapacity, newCapacity, newCapacity);
+                    float newTransparency = initialTransparency - scaleFactor;
+                    Color color = Bg.GetComponent<Renderer>().material.color;
+                    color.a = Mathf.Clamp(newTransparency, 0.0f, 1.0f);
+                    Bg.GetComponent<Renderer>().material.color = color;
                 }
                 else
                 {
