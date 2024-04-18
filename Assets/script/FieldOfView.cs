@@ -61,6 +61,7 @@ public class FieldOfView : MonoBehaviour
 
                     anima.SetBool("isRun", true); // Player is visible, set animation to run
                     Danger.SetActive(true);
+                    Bg.SetActive(true);
                     Warning.SetActive(false);
                 }
                 else
@@ -79,6 +80,7 @@ public class FieldOfView : MonoBehaviour
         {
             Warning.SetActive(false);
             Danger.SetActive(false);
+            Bg.SetActive(false);
             anima.SetBool("isRun", false); // Player is not visible, set animation to idle
             anima.SetBool("isWalk", false);
             target = null;
