@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class FieldOfView : MonoBehaviour
 {
@@ -17,6 +16,9 @@ public class FieldOfView : MonoBehaviour
 
     private Coroutine moveCoroutine;
     private Animator anima;
+
+    public GameObject Danger, Bg;
+    public GameObject Warning;
 
     private void Start()
     {
@@ -47,7 +49,7 @@ public class FieldOfView : MonoBehaviour
 
             if (Vector3.Angle(transform.forward, directionToTarget) < angle / 2)
             {
-                float distanceToTarget = Vector3.Distance(transform.position, target.position);            
+                float distanceToTarget = Vector3.Distance(transform.position, target.position);
 
                 if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
                 {
@@ -58,6 +60,8 @@ public class FieldOfView : MonoBehaviour
                     }
 
                     anima.SetBool("isRun", true); // Player is visible, set animation to run
+                    Danger.SetActive(true);
+                    Warning.SetActive(false);
                 }
                 else
                 {
@@ -66,13 +70,15 @@ public class FieldOfView : MonoBehaviour
                 }
             }
             else
-            {              
+            {
                 anima.SetBool("isRun", false); // Player is not directly within FOV, set animation to idle
-                anima.SetBool("isWalk", true);               
+                anima.SetBool("isWalk", true);
             }
         }
         else
         {
+            Warning.SetActive(false);
+            Danger.SetActive(false);
             anima.SetBool("isRun", false); // Player is not visible, set animation to idle
             anima.SetBool("isWalk", false);
             target = null;
