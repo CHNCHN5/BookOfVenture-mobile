@@ -18,9 +18,6 @@ public class FieldOfView : MonoBehaviour
     private Coroutine moveCoroutine;
     private Animator anima;
 
-    public GameObject Danger, bg;
-    public GameObject Warning;
-
     private void Start()
     {
         anima = GetComponent<Animator>();
@@ -61,9 +58,6 @@ public class FieldOfView : MonoBehaviour
                     }
 
                     anima.SetBool("isRun", true); // Player is visible, set animation to run
-                    Danger.SetActive(true);
-                    bg.SetActive(true);
-                    Warning.SetActive(false);
                 }
                 else
                 {
@@ -72,16 +66,13 @@ public class FieldOfView : MonoBehaviour
                 }
             }
             else
-            {
+            {              
                 anima.SetBool("isRun", false); // Player is not directly within FOV, set animation to idle
-                anima.SetBool("isWalk", true);
+                anima.SetBool("isWalk", true);               
             }
         }
         else
         {
-            Warning.SetActive(false);
-            Danger.SetActive(false);
-            bg.SetActive(false);
             anima.SetBool("isRun", false); // Player is not visible, set animation to idle
             anima.SetBool("isWalk", false);
             target = null;
