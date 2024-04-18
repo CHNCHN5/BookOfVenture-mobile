@@ -8,7 +8,7 @@ public class CollisionDetector : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player")) // Replace "YourColliderTag" with the tag of your collider
+        if (other.CompareTag("Player"))
         {
             isColliding = true;
             imageToActivate.gameObject.SetActive(true);
@@ -17,7 +17,7 @@ public class CollisionDetector : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player")) // Replace "YourColliderTag" with the tag of your collider
+        if (other.CompareTag("Player"))
         {
             isColliding = false;
             imageToActivate.gameObject.SetActive(false);
@@ -26,7 +26,6 @@ public class CollisionDetector : MonoBehaviour
 
     void Update()
     {
-        // If you want to deactivate the image when not colliding even during the frame update
         if (!isColliding)
         {
             imageToActivate.gameObject.SetActive(false);
