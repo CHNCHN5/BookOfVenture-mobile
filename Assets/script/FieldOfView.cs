@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FieldOfView : MonoBehaviour
 {
@@ -17,11 +18,8 @@ public class FieldOfView : MonoBehaviour
     private Coroutine moveCoroutine;
     private Animator anima;
 
-    public GameObject Danger, Bg;
+    public GameObject Danger, bg;
     public GameObject Warning;
-
-    public float maxDistance = 10.0f;
-    public float initialTransparency = 1.0f;
 
     private void Start()
     {
@@ -52,7 +50,7 @@ public class FieldOfView : MonoBehaviour
 
             if (Vector3.Angle(transform.forward, directionToTarget) < angle / 2)
             {
-                float distanceToTarget = Vector3.Distance(transform.position, target.position);
+                float distanceToTarget = Vector3.Distance(transform.position, target.position);            
 
                 if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
                 {
@@ -64,14 +62,8 @@ public class FieldOfView : MonoBehaviour
 
                     anima.SetBool("isRun", true); // Player is visible, set animation to run
                     Danger.SetActive(true);
+                    bg.SetActive(true);
                     Warning.SetActive(false);
-
-                    // Adjust the transparency of Bg based on distance to target
-                    float scaleFactor = distanceToTarget / maxDistance; // You can set maxDistance as per your requirement
-                    float newTransparency = initialTransparency - scaleFactor;
-                    Color color = Bg.GetComponent<Renderer>().material.color;
-                    color.a = Mathf.Clamp(newTransparency, 0.0f, 1.0f);
-                    Bg.GetComponent<Renderer>().material.color = color;
                 }
                 else
                 {
@@ -89,6 +81,7 @@ public class FieldOfView : MonoBehaviour
         {
             Warning.SetActive(false);
             Danger.SetActive(false);
+            bg.SetActive(false);
             anima.SetBool("isRun", false); // Player is not visible, set animation to idle
             anima.SetBool("isWalk", false);
             target = null;
@@ -115,7 +108,7 @@ public class FieldOfView : MonoBehaviour
 
     // Method to check if the player is visible to the enemy
     public bool IsPlayerVisible()
-    {       
+    {
         return target != null;
     }
 }
