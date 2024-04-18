@@ -1,18 +1,35 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CollisionDetector : MonoBehaviour
 {
-    // Reference to the object you want to activate upon collision
-    public GameObject objectToActivate;
+    public Image imageToActivate;
+    private bool isColliding;
 
-    // This function is called when the GameObject collides with another GameObject
-    private void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider other)
     {
-        // Check if the collided GameObject has a specific tag (you can customize this)
-        if (collision.gameObject.CompareTag("YourTagHere"))
+        if (other.CompareTag("Player")) // Replace "YourColliderTag" with the tag of your collider
         {
-            // Activate the specified GameObject
-            objectToActivate.SetActive(true);
+            isColliding = true;
+            imageToActivate.gameObject.SetActive(true);
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player")) // Replace "YourColliderTag" with the tag of your collider
+        {
+            isColliding = false;
+            imageToActivate.gameObject.SetActive(false);
+        }
+    }
+
+    void Update()
+    {
+        // If you want to deactivate the image when not colliding even during the frame update
+        if (!isColliding)
+        {
+            imageToActivate.gameObject.SetActive(false);
         }
     }
 }
