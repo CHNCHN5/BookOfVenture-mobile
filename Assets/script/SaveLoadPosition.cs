@@ -1,25 +1,52 @@
 using UnityEngine;
+using System;
+using System.IO;
+
+[Serializable]
+public class SaveData
+{
+    public float x;
+    public float y;
+    public float z;
+}
 
 public class SaveLoadPosition : MonoBehaviour
 {
-    private string saveKey = "PlayerPosition";
+    private string savePath;
+
+    private void Awake()
+    {
+        savePath = Application.persistentDataPath + "/save.json";
+    }
 
     // Save the player position
     public void SavePosition(Vector3 position)
     {
-        PlayerPrefs.SetFloat(saveKey + "X", position.x);
-        PlayerPrefs.SetFloat(saveKey + "Y", position.y);
-        PlayerPrefs.SetFloat(saveKey + "Z", position.z);
-        PlayerPrefs.Save();
+        SaveData data = new SaveData
+        {
+            x = position.x,
+            y = position.y,
+            z = position.z
+        };
+
+        string jsonData = JsonUtility.ToJson(data);
+        File.WriteAllText(savePath, jsonData);
     }
 
     // Load the player position
     public Vector3 LoadPosition()
     {
-        float x = PlayerPrefs.GetFloat(saveKey + "X", 0f);
-        float y = PlayerPrefs.GetFloat(saveKey + "Y", 0f);
-        float z = PlayerPrefs.GetFloat(saveKey + "Z", 0f);
-        return new Vector3(x, y, z);
+        if (File.Exists(savePath))
+        {
+            string jsonData = File.ReadAllText(savePath);
+            SaveData data = JsonUtility.FromJson<SaveData>(jsonData);
+            return new Vector3(data.x, data.y, data.z);
+        }
+        else
+        {
+            Debug.LogWarning("Save file not found.");
+            return Vector3.zero;
+        }
     }
 
     // Example usage: Save position when called
