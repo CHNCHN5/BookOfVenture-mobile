@@ -27,6 +27,7 @@ public class DataPersistenceManager : MonoBehaviour
 
     private void Start()
     {
+        this.dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
         this.dataPersistenceObjects = FindAllDataPersistenceObjects();
         LoadGame();
     }
@@ -38,6 +39,8 @@ public class DataPersistenceManager : MonoBehaviour
 
     public void LoadGame()
     {
+        this.gameData = dataHandler.Load();
+
         if (this.gameData == null)
         {
             Debug.Log("No Data found");
@@ -48,8 +51,6 @@ public class DataPersistenceManager : MonoBehaviour
         {
             dataPersistenceObj.LoadData(gameData);
         }
-
-        Debug.Log("Loaded death count = " + gameData.relocationCount);
     }
 
     public void SaveGame()
@@ -59,7 +60,7 @@ public class DataPersistenceManager : MonoBehaviour
             dataPersistenceObj.SaveData(ref gameData);
         }
 
-        Debug.Log("Saved death count = " + gameData.relocationCount);
+        dataHandler.Save(gameData);
     }
 
     private void OnApplicationQuit()
