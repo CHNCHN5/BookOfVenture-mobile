@@ -28,9 +28,18 @@ public class Play : MonoBehaviour
         SceneManager.LoadScene("SampleScene");
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnNewGameClicked()
     {
-        
+        DataPersistenceManager.instance.NewGame();
+    }
+
+    public void OnNLoadGameClicked()
+    {
+        DataPersistenceManager.instance.LoadGame();
+    }
+
+    public void OnSaveGameClicked()
+    {
+        DataPersistenceManager.instance.SaveGame();
     }
 }

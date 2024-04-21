@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CollisionRelocateAndActivate : MonoBehaviour
+public class CollisionRelocateAndActivate : MonoBehaviour, IDataPersistence
 {
     public GameObject objectToRelocate;
     public GameObject[] relocationSpawnPoints;
@@ -19,6 +19,16 @@ public class CollisionRelocateAndActivate : MonoBehaviour
 
     private int relocationCount = 0;
     private bool relocationActivated = false;
+
+    public void LoadData(GameData data)
+    {
+        this.relocationCount = data.relocationCount;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.relocationCount = this.relocationCount;
+    }
 
     private void Start()
     {
