@@ -17,7 +17,7 @@ public class FileDataHandler
 
     public GameData Load()
     {
-        string fullPath = fullPath.Combine(dataDirPath, dataFileName);
+        string fullPath = Path.Combine(dataDirPath, dataFileName);
         GameData loadedData = null;
         if (File.Exists(fullPath))
         {
@@ -34,7 +34,7 @@ public class FileDataHandler
 
                 loadedData = JsonUtility.FromJson<GameData>(dataLoad);
             }
-            catch (Exeption e)
+            catch (Exception e)
             {
                 Debug.LogError("Error occured when trying to load data from file: " + fullPath + "\n" + e);
             }
@@ -44,7 +44,7 @@ public class FileDataHandler
 
     public void Save(GameData data)
     {
-        string fullPath = fullPath.Combine(dataDirPath, dataFileName);
+        string fullPath = Path.Combine(dataDirPath, dataFileName);
         try
         {
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
