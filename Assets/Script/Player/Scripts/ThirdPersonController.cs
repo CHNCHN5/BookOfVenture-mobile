@@ -111,6 +111,8 @@ namespace StarterAssets
 
         private bool _hasAnimator;
 
+        public GameObject PlayerG;
+
         private bool IsCurrentDeviceMouse
         {
             get
@@ -156,6 +158,7 @@ namespace StarterAssets
         public void LoadData(GameData data)
         {
             this.transform.position = data.playerPosition;
+            PlayerG.transform.position = data.playerPosition;
         }
 
         public void SaveData(ref GameData data)
