@@ -35,6 +35,21 @@ public class DataPersistenceManager : MonoBehaviour
     public void NewGame()
     {
         this.gameData = new GameData();
+        ResetAgentPosition();      
+    }
+
+    private void ResetAgentPosition()
+    {
+        // Reset agent position to the position stored in game data
+        GameObject agentObject = GameObject.FindGameObjectWithTag("Agent");
+        if (agentObject != null)
+        {
+            agentObject.transform.position = gameData.agentPosition;
+        }
+        else
+        {
+            Debug.LogError("Agent GameObject not found in the scene.");
+        }
     }
 
     public void LoadGame()
@@ -45,6 +60,10 @@ public class DataPersistenceManager : MonoBehaviour
         {
             Debug.Log("No Data found");
             NewGame();
+        }
+        else
+        {
+            ToggleMenuMessages(false);
         }
 
         foreach (IDataPersistence dataPersistenceObj in dataPersistenceObjects)
@@ -63,10 +82,10 @@ public class DataPersistenceManager : MonoBehaviour
         dataHandler.Save(gameData);
     }
 
-    private void OnApplicationQuit()
-    {
-        SaveGame();
-    }
+    //private void OnApplicationQuit()
+    //{
+        //SaveGame();
+    //}
 
     private List<IDataPersistence> FindAllDataPersistenceObjects()
     {
@@ -75,4 +94,12 @@ public class DataPersistenceManager : MonoBehaviour
         return new List<IDataPersistence>(dataPersistenceObjects);
     }
 
+    private void ToggleMenuMessages(bool setActive)
+    {
+        GameObject[] menuMessages = GameObject.FindGameObjectsWithTag("MenuMessage");
+        foreach (GameObject message in menuMessages)
+        {
+            message.SetActive(setActive);
+        }
+    }
 }
