@@ -21,16 +21,35 @@ public class Play : MonoBehaviour
     private IEnumerator Ply()
     {
         yield return new WaitForSeconds(3);
-
+     
         DeactCan1.SetActive(false);
         DeactCan2.SetActive(false);
 
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("SampleScene");      
+    }
+
+    public void NewGameDely()
+    {
+        StartCoroutine(OnNewGameDely());
     }
 
     public void OnNewGameClicked()
     {
+        NewGameDely();
+    }
+
+    public IEnumerator OnNewGameDely()
+    {
+        yield return new WaitForSeconds(3);
+
+
         DataPersistenceManager.instance.NewGame();
+
+        // Save the new game data
+        DataPersistenceManager.instance.SaveGame();
+
+        // Load the scene
+        SceneManager.LoadScene("SampleScene");
     }
 
     public void OnNLoadGameClicked()
@@ -41,5 +60,14 @@ public class Play : MonoBehaviour
     public void OnSaveGameClicked()
     {
         DataPersistenceManager.instance.SaveGame();
+    }
+
+    private void EnableGameObjectWithTag(string tag)
+    {
+        GameObject[] objectsToEnable = GameObject.FindGameObjectsWithTag(tag);
+        foreach (GameObject obj in objectsToEnable)
+        {
+            obj.SetActive(true);
+        }
     }
 }
