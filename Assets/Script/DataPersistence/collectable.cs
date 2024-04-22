@@ -23,6 +23,10 @@ public class CollisionRelocateAndActivate : MonoBehaviour, IDataPersistence
     public void LoadData(GameData data)
     {
         this.relocationCount = data.relocationCount;
+        if (countText != null)
+        {
+            countText.text = relocationCount.ToString() + "/15 Obsidian";
+        }
     }
 
     public void SaveData(ref GameData data)
