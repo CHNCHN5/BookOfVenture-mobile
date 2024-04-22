@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Playables;
 
-public class RoamingEn : MonoBehaviour
+public class RoamingEn : MonoBehaviour, IDataPersistence
 {
     public NavMeshAgent agent;
     public float range; //radius of sphere
@@ -13,6 +14,18 @@ public class RoamingEn : MonoBehaviour
     //instead of centrePoint you can set it as the transform of the agent if you don't care about a specific area
 
     private Animator anim;
+
+    public void LoadData(GameData data)
+    {
+        // Load agent position from GameData
+        this.transform.position = data.agentPosition;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        // Save agent position to GameData
+        data.agentPosition = this.transform.position;
+    }
 
     void Start()
     {
