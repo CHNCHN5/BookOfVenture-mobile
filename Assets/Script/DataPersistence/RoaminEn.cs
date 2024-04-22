@@ -19,6 +19,7 @@ public class RoamingEn : MonoBehaviour, IDataPersistence
     {
         // Load agent position from GameData
         this.transform.position = data.agentPosition;
+        agent.transform.position = data.agentPosition;
     }
 
     public void SaveData(ref GameData data)
