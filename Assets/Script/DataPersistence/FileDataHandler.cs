@@ -23,16 +23,16 @@ public class FileDataHandler
         {
             try
             {
-                string dataLoad = "";
+                string dataToLoad = "";
                 using (FileStream stream = new FileStream(fullPath, FileMode.Open))
                 {
                     using (StreamReader reader = new StreamReader(stream))
                     {
-                        dataLoad = reader.ReadToEnd();
+                        dataToLoad = reader.ReadToEnd();
                     }
                 }
 
-                loadedData = JsonUtility.FromJson<GameData>(dataLoad);
+                loadedData = JsonUtility.FromJson<GameData>(dataToLoad);
             }
             catch (Exception e)
             {
